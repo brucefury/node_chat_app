@@ -28,22 +28,12 @@ io.on('connection', (socket)=> {
     
     
     //RECEIVING A NEW MESSAGE
-    socket.on("createMessage", (message)=>{
+    socket.on("createMessage", (message, callback)=>{
        console.log(message);
-      io.broadcast.emit('newMessage',generateMessage(message.from, message.text));
-        // socket.broadcast.emit('newMessage',{
-        //     from:message.from,
-        //     text:message.text,
-        //     createAt:new Date().getTime()
-        // });
+       io.emit('newMessage',generateMessage(message.from, message.text));
+       callback('This from the server');
     });
-    
 });
-
-// app.get('/', (req,res)=>{
-//     render()
-// })
-
 
 
 console.log(__dirname + '/../public');
