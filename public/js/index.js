@@ -5,34 +5,30 @@
             //CONNECTING TO THE SERVER
             socket.on('connect', function(){
                 console.log('Connected to server.');
-                //SENDING AN E-MAIL (MAKING SURE YOU'RE CONNECTED FIRST)
-                // socket.emit('createEmail',{
-                //     to:'Jen',
-                //     text:'What the fuck?'
-                // });
-                // //SENDING A NEW MESSAGE
-                // socket.emit("createMessage", {
-                // user:'Bruce',
-                // message:"I'm tired of your shit too.",
-                // createAt:Date
-                // });
-                
 
-    
             });
             //LISTENING FOR THE SERVER TO DISCONNECT
             socket.on('disconnect', function(){
                 console.log('Disconnected from server.');
             });
-            // //LISTENING FOR A NEW E-MAIL
-            // socket.on('newEmail', function(email){
-            //     console.log('New email', email);
-            // });
-            
 
-    
             //RECEIVING A NEW MESSAGE
             socket.on("newMessage", (message)=>{
                 console.log(message);
+                var li = jQuery('<li></li>');
+                li.text(`${message.from}: ${message.text}`);
+                
+                jQuery('#messages').append(li);
             });
             
+            //SENDING A MESSAGE WITH SUBMIT FORM
+            jQuery('#message-form').on('submit', function(e){
+                e.preventDefault();
+                
+                socket.emit('createMessage',{
+                    from:'User',
+                    text:jQuery('[name=message]').val()
+                }, function(){
+                    
+                });
+            });

@@ -6,6 +6,4 @@ var generateMessage = (from, text) => {
     };
 };
 
-console.log(generateMessage("ass","hole"));
-
 module.exports = generateMessage;
