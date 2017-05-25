@@ -20,21 +20,33 @@ io.on('connection', (socket)=> {
         console.log('Client disconnected.');
     });
     
-    // //SENDING A NEW MESSAGE
-    // socket.emit("newMessage", {
-    //     user:'Bruce',
-    //     message:"I'm tired of your shit.",
-    //     createAt:new Date
-    // });
+    //SENDING A WELCOME MESSAGE
+    socket.emit("newMessage", {
+        user:'Admin',
+        message:"Welcome to the Chat App!",
+        createAt:new Date().getTime()
+    });
+    
+    socket.broadcast.emit("newMessage", {
+        user:'Admin',
+        message:"A new user has joined!",
+        createAt:new Date().getTime()
+    });
+    
     
     //RECEIVING A NEW MESSAGE
     socket.on("createMessage", (message)=>{
        console.log(message);
-       io.emit('newMessage',{
-           from:message.from,
-           text:message.text,
-           createAt:new Date().getTime()
-       });
+    //   io.emit('newMessage',{
+    //       from:message.from,
+    //       text:message.text,
+    //       createAt:new Date().getTime()
+    //   });
+        socket.broadcast.emit('newMessage',{
+            from:message.from,
+            text:message.text,
+            createAt:new Date().getTime()
+        });
     });
     
 });
