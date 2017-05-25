@@ -14,32 +14,27 @@ app.use(express.static(publicPath));
 io.on('connection', (socket)=> {
     console.log('New user connected.')
     
-    //SENDING AN E-MAIL TO THE USER
-    socket.emit('newEmail',{
-        from:"biotch",
-        text:"whatthe fuck?",
-        createAt:1223456
-    });
-    //LISTENING TO THE USER, WAITING FOR AN EVENT
-    socket.on('createEmail', (newEmail)=>{
-        console.log('createEmail', newEmail);
-    });
+
     //LISTENING TO SEE IF THE USER DISCONNECTS
     socket.on('disconnect', ()=>{
-        console.log('Client disconnected.')
+        console.log('Client disconnected.');
     });
     
-    //SENDING A NEW MESSAGE
-    socket.emit("newMessage", {
-        user:'Bruce',
-        message:"I'm tired of your shit.",
-        createAt:new Date
-    });
+    // //SENDING A NEW MESSAGE
+    // socket.emit("newMessage", {
+    //     user:'Bruce',
+    //     message:"I'm tired of your shit.",
+    //     createAt:new Date
+    // });
     
     //RECEIVING A NEW MESSAGE
     socket.on("createMessage", (message)=>{
-       message.createAt = new Date;
        console.log(message);
+       io.emit('newMessage',{
+           from:message.from,
+           text:message.text,
+           createAt:new Date().getTime()
+       });
     });
     
 });
