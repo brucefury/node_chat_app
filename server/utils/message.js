@@ -1,4 +1,6 @@
-var generateMessage = (from, text) => {
+var messageMiddleware = {};
+
+messageMiddleware.generateMessage = (from, text) => {
     return {
         from,
         text,
@@ -6,4 +8,13 @@ var generateMessage = (from, text) => {
     };
 };
 
-module.exports = generateMessage;
+messageMiddleware.generateLocationMessage = (from, latitude, longitude) => {
+    console.log(latitude);
+    return {
+        from,
+        url:`https://www.google.com/maps?q=${latitude},${longitude}`,
+        createdAt:new Date().getTime()
+    };
+};
+
+module.exports = messageMiddleware;
